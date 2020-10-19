@@ -3,11 +3,29 @@ from bs4 import BeautifulSoup
 from pprint import pprint
 import requests
 import numpy as np
+import datetime
+import cv2
 
+sunny = cv2.imread('/img/sunny.png', cv2.IMREAD_UNCHANGED)
+cv2.imshow('sunny', png)
+cv2.waitKey(0)
+cv2.destroyWindow()
+
+
+# sunny = Image.open('/img/sunny.png')
+# sunnyRain = Image.open('/img/sunnyRain.png')
+# cloud = Image.open('/img/cloud.png')
+# cloudRain = Image.open('/img/cloudRain.png')
+# cloudSunny = Image.open('/img/cloudSunny.png')
+# rain = Image.open('/img/rain.png')
+# snow = Image.open('/img/snow.png')
+# thunder = Image.open('/img/thunder.png')
+
+def getDate(date):
+    return date.text
 
 def getIconNumber(weather):
     return weather['data-ico'][-1]
-
 
 # 웹페이지 요청을 하는 코드. 특정 url을 적으면 웹페이지에 대한 소스코드를 볼 수 있음
 html = requests.get('https://n.weather.naver.com/today/09140104')
@@ -23,11 +41,60 @@ print('주간 예보 : ')
 # 주간 예보 안에 내가 필요한 일주일 날씨 박스만 불러옴
 data1 = data0.find('div', {'class':'scroll_area'})
 
+# 날짜 불러오기
+date = data1.find_all('span', {'class' : 'date'})
+find_date = list(map(getDate, date))
+
 # 박스안에 날씨 부분 (맑음)이 속한 태그 불러오기
 find_weather = data1.find_all('i', {'class' : 'ico _cnLazy'})
 
+# 리스트 요소번호에 따라 홀수면 오전 날씨, 짝수면 오후 날씨를 나타냄
 find_weather_icon = list(map(getIconNumber, find_weather))
-print(find_weather_icon)
+AMlist=find_weather_icon[0::2]
+PMlist=find_weather_icon[1::2]
+
+# 오늘 날짜 가져오기
+today = datetime.datetime.today().date()
+
+# 오늘 시간 가져오기
+todayH = datetime.datetime.today().hour
+
+result = []
+# 오늘부터 10일뒤에 날짜 불러오기
+for i in range(0, 10):
+    tendate = today + datetime.timedelta(days=i)
+    result.insert(i, {
+        "date": tendate,
+        "am": AMlist[i],
+        "pm": PMlist[i]
+    })
+
+
+if todayH < 12 :
+    for i in range(0, 10):
+        print(result[i]['am'])
+else :
+    for i in range(0, 10):
+        weather = result[i]['pm']
+        print(weather)
+    sunny = [1, 2]
+    cloud = [7, 34, 40, 41]
+    cloudRain = [8, 9, 10, 15, 27, 29]
+    cloudSunny = [3, 4, 5, 6, 17, 20, 25]
+    rain = [31, 36, 38]
+    snow = {11, 12, 13, 14, 16, 19, 21, 23, 24, 28, 30, 32, 33, 37, 39}
+    sunnyRain = [22]
+    thunder = [18, 26, 35]
+
+    if weather in sunny:
+        print(sunny)
+    elif cloud:
+        print(cloud)
+    else:
+        print(rain)
+
+
+
 
 
 # for item in find_weather:
