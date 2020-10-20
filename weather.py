@@ -1,25 +1,19 @@
 from bs4 import BeautifulSoup
 # pprint 는 딕셔너리의 데이터가 긴 경우에 좀 더 보기 편하게 도와준다.
-from pprint import pprint
+
+# img 열기
+from PIL import Image
+sunnyImg = Image.open('img/sunny.png')
+cloudImg = Image.open('img/cloud.png')
+rainImg = Image.open('img/rain.png')
+cloudRainImg = Image.open('img/cloudRain.png')
+cloudSunnyImg = Image.open('img/cloudSunny.png')
+snowImg = Image.open('img/snow.png')
+sunnyRainImg = Image.open('img/sunnyRain.png')
+thunderImg = Image.open('img/thunder.png')
+
 import requests
-import numpy as np
 import datetime
-import cv2
-
-sunny = cv2.imread('/img/sunny.png', cv2.IMREAD_UNCHANGED)
-cv2.imshow('sunny', png)
-cv2.waitKey(0)
-cv2.destroyWindow()
-
-
-# sunny = Image.open('/img/sunny.png')
-# sunnyRain = Image.open('/img/sunnyRain.png')
-# cloud = Image.open('/img/cloud.png')
-# cloudRain = Image.open('/img/cloudRain.png')
-# cloudSunny = Image.open('/img/cloudSunny.png')
-# rain = Image.open('/img/rain.png')
-# snow = Image.open('/img/snow.png')
-# thunder = Image.open('/img/thunder.png')
 
 def getDate(date):
     return date.text
@@ -69,29 +63,70 @@ for i in range(0, 10):
         "pm": PMlist[i]
     })
 
+sunny = [1, 2]
+cloud = [7, 34, 40, 41]
+cloudRain = [8, 9, 10, 15, 27, 29]
+cloudSunny = [3, 4, 5, 6, 17, 20, 25]
+rain = [31, 36, 38]
+snow = [11, 12, 13, 14, 16, 19, 21, 23, 24, 28, 30, 32, 33, 37, 39]
+sunnyRain = [22]
+thunder = [18, 26, 35]
 
 if todayH < 12 :
+    weatherli = []
     for i in range(0, 10):
-        print(result[i]['am'])
-else :
-    for i in range(0, 10):
-        weather = result[i]['pm']
-        print(weather)
-    sunny = [1, 2]
-    cloud = [7, 34, 40, 41]
-    cloudRain = [8, 9, 10, 15, 27, 29]
-    cloudSunny = [3, 4, 5, 6, 17, 20, 25]
-    rain = [31, 36, 38]
-    snow = {11, 12, 13, 14, 16, 19, 21, 23, 24, 28, 30, 32, 33, 37, 39}
-    sunnyRain = [22]
-    thunder = [18, 26, 35]
+        weather = result[i]['am']
+        weatherli.extend(weather)
+        intList = list(map(int, weatherli))
+        print(intList)
+    print(intList)
 
-    if weather in sunny:
-        print(sunny)
-    elif cloud:
-        print(cloud)
-    else:
-        print(rain)
+    for i in range(0, 10):
+        Rweather = intList[i]
+        if Rweather in sunny:
+            sunnyImg.show()
+        elif Rweather in cloud:
+            cloudImg.show()
+        elif Rweather in cloudRain:
+            cloudRainImg.show()
+        elif Rweather in cloudSunny:
+            cloudSunnyImg.show()
+        elif Rweather in rain:
+            rainImg.show()
+        elif Rweather in snow:
+            snowImg.show()
+        elif Rweather in sunnyRain:
+            sunnyRainImg.show()
+        else:
+            thunderImg.show()
+
+else :
+    weatherli2 = []
+    for i in range(0, 10):
+        weather2 = result[i]['pm']
+        weatherli2.extend(weather2)
+        intList2 = list(map(int, weatherli2))
+        print(intList2)
+    print(intList2)
+
+    for i in range(0, 10):
+        Rweather2 = intList2[i]
+        if Rweather2 in sunny:
+            sunnyImg.show()
+        elif Rweather2 in cloud:
+            cloudImg.show()
+        elif Rweather2 in cloudRain:
+            cloudRainImg.show()
+        elif Rweather2 in cloudSunny:
+            cloudSunnyImg.show()
+        elif Rweather2 in rain:
+            rainImg.show()
+        elif Rweather2 in snow:
+            snowImg.show()
+        elif Rweather2 in sunnyRain:
+            sunnyRainImg.show()
+        else:
+            thunderImg.show()
 
 
 
