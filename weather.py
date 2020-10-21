@@ -57,11 +57,13 @@ result = []
 # 오늘부터 10일뒤에 날짜 불러오기
 for i in range(0, 10):
     tendate = today + datetime.timedelta(days=i)
+    print(tendate)
     result.insert(i, {
         "date": tendate,
         "am": AMlist[i],
         "pm": PMlist[i]
     })
+    print(result)
 
 sunny = [1, 2]
 cloud = [7, 34, 40, 41]
@@ -72,33 +74,33 @@ snow = [11, 12, 13, 14, 16, 19, 21, 23, 24, 28, 30, 32, 33, 37, 39]
 sunnyRain = [22]
 thunder = [18, 26, 35]
 
-if todayH < 12 :
+if todayH < 18 :
     weatherli = []
     for i in range(0, 10):
         weather = result[i]['am']
         weatherli.extend(weather)
         intList = list(map(int, weatherli))
-        print(intList)
+        print('intlist : ', intList)
     print(intList)
 
     for i in range(0, 10):
         Rweather = intList[i]
         if Rweather in sunny:
-            sunnyImg.show()
+            print("suny")
         elif Rweather in cloud:
-            cloudImg.show()
+            print("suny")
         elif Rweather in cloudRain:
-            cloudRainImg.show()
+            print("suny")
         elif Rweather in cloudSunny:
-            cloudSunnyImg.show()
+            print("sunny")
         elif Rweather in rain:
-            rainImg.show()
+            print("suny")
         elif Rweather in snow:
-            snowImg.show()
+            print("sunny")
         elif Rweather in sunnyRain:
-            sunnyRainImg.show()
+            print("suny")
         else:
-            thunderImg.show()
+            print("sunny")
 
 else :
     weatherli2 = []
